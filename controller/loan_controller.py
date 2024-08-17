@@ -2,12 +2,13 @@ import logging
 from fastapi import HTTPException
 
 from starlette import status
+
+from app import app
 from database.unit_of_work import UnitOfWork
 from domain.create_loan import CreateLoan
 from domain.loan_guid import LoanGuid
 from repository.loan_repository import LoanRepository
 from service.loan_service import LoanService
-from web.app import app
 
 
 @app.post("/api/v1/loans", status_code=status.HTTP_201_CREATED, response_model=LoanGuid)
