@@ -4,6 +4,7 @@ import yaml
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+
 app = FastAPI(debug=True, openapi_url='/api/openapi.json', docs_url='/api/docs')
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -20,3 +21,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+from controller import loan_controller
