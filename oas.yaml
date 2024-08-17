@@ -45,7 +45,7 @@ paths:
   /api/v1/loans:
     post:
       summary: Creates an order
-      operationId: createOrder
+      operationId: create_loan
       requestBody:
         required: true
         content:
