@@ -1,4 +1,5 @@
-class LoanGuid:
+from pydantic.v1 import BaseModel
 
-    def __init__(self, uuid):
-        self.uuid = uuid
+
+class LoanGuid(BaseModel):
+    uuid: str

@@ -1,7 +1,7 @@
 import logging
+from fastapi import HTTPException
 
 from starlette import status
-from starlette.requests import Request
 from database.unit_of_work import UnitOfWork
 from domain.create_loan import CreateLoan
 from domain.loan_guid import LoanGuid
@@ -10,18 +10,27 @@ from service.loan_service import LoanService
 from web.app import app
 
 
-@app.post('/api/v1/loans', status_code=status.HTTP_201_CREATED, response_model=LoanGuid)
-def create_loan(request: Request, payload: CreateLoan):
-    with UnitOfWork as unit:
-        logging.info("receive payload %s", payload)
+@app.post("/api/v1/loans", status_code=status.HTTP_201_CREATED, response_model=LoanGuid)
+def create_loan(payload: CreateLoan):
+    try:
+        with UnitOfWork as unit:
+            logging.info("receive payload %s", payload)
 
-        repo = LoanRepository(unit.session)
-        service = LoanService(repo)
+            repo = LoanRepository(unit.session)
+            service = LoanService(repo)
 
-        loan = CreateLoan.toLoan(payload)
-        result = service.save(loan)
-        unit.commit()
+            loan = CreateLoan.toLoan(payload)
+            loan = service.save(loan)
+            logging.info("result %s", loan)
 
-        logging.info("result %s", result)
+            result = LoanGuid
+            result.uuid = loan.uuid
 
-    return LoanGuid(result.uuid)
+            unit.commit()
+
+        return result
+    except Exception as e:
+        logging.error(e)
+        raise HTTPException(
+            status_code=400, detail=f'fail save loan'
+        )
