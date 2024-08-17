@@ -1,0 +1,140 @@
+openapi: 3.0.3
+
+info:
+  title: Loan API
+  description: Api request and valid loan
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: local development server
+  - url: https://loan.com
+    description: main production server
+  - url: https://loan-staging.com
+    description: staging server for testing purposes only
+
+paths:
+  /api/v1/loans/{guid}:
+    get:
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: string
+      summary: Return loan
+      operationId: getLoan
+      description: >
+        Loan corresponding the guid
+      responses:
+        '200':
+          description: A JSON of loan
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  loan:
+                    type: object
+                    items:
+                      $ref: '#/components/schemas/GetLoanSchema'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /api/v1/loans:
+    post:
+      summary: Creates an order
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLoanSchema'
+      responses:
+        '201':
+          description: A JSON representation of the created order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUUIDLoan'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+components:
+  responses:
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: The payload contains invalid values.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        detail:
+          oneOf:
+            - type: string
+            - type: array
+      required:
+        - detail
+      additionalProperties: false
+
+    CreateLoanSchema:
+      additionalProperties: false
+      type: object
+      required:
+        - name
+        - document
+        - birth_date
+        - salary
+        - loan
+      properties:
+        name:
+          type: string
+        document:
+          type: string
+        birth_date:
+          type: string
+        salary:
+          type: number
+        loan:
+          type: number
+        value:
+          type: number
+
+    GetLoanSchema:
+      additionalProperties: false
+      type: object
+      required:
+        - status
+        - sees
+        - installments
+        - value
+      properties:
+        status:
+          type: string
+        sees:
+          type: number
+        installments:
+          type: number
+        value:
+          type: number
+
+    GetUUIDLoan:
+      additionalProperties: false
+      type: object
+      required:
+        - uuid
+      properties:
+        uuid:
+          type: string
