@@ -1,3 +1,4 @@
+import uuid
 from datetime import date, datetime
 
 from pydantic import BaseModel, Field
@@ -35,4 +36,13 @@ class CreateLoan(BaseModel):
 
     @staticmethod
     def toLoan(create):
-        return Loan(**create)
+        loan = Loan(
+            name=create.name,
+            salary=create.salary,
+            birthday=create.birth_date,
+            loan=create.loan,
+            document=create.document,
+            uuid=uuid.uuid4()
+        )
+
+        return loan

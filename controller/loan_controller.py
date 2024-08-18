@@ -14,7 +14,7 @@ from service.loan_service import LoanService
 @app.post("/api/v1/loans", status_code=status.HTTP_201_CREATED, response_model=LoanGuid)
 def create_loan(payload: CreateLoan):
     try:
-        with UnitOfWork as unit:
+        with UnitOfWork() as unit:
             logging.info("receive payload %s", payload)
 
             repo = LoanRepository(unit.session)
@@ -24,8 +24,7 @@ def create_loan(payload: CreateLoan):
             loan = service.save(loan)
             logging.info("result %s", loan)
 
-            result = LoanGuid
-            result.uuid = loan.uuid
+            result = LoanGuid(uuid=str(loan.uuid))
 
             unit.commit()
 

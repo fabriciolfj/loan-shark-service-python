@@ -13,5 +13,11 @@ class UnitOfWork:
         db_url = config['database']['url']
         self.session = Session(create_engine(db_url))
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, val, tb):
+        self.session.close()
+
     def commit(self):
         self.session.commit()

@@ -8,6 +8,7 @@ class LoanRepository:
 
     def persist(self, loan):
         try:
-            return self.session.add(loan)
+            self.session.add(loan)
+            return loan
         except Exception as e:
             logging.error("fail save loan $s", e)

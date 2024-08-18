@@ -378,3 +378,4 @@ zstandard @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_
 pydantic==2.8.2
 PyYAML~=6.0
 SQLAlchemy~=2.0.32
+psycopg2==2.9.9
