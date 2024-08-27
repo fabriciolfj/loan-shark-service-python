@@ -1,5 +1,7 @@
 import logging
 
+from domain.loan import Loan
+
 
 class LoanRepository:
 
@@ -12,3 +14,10 @@ class LoanRepository:
             return loan
         except Exception as e:
             logging.error("fail save loan $s", e)
+
+    def get_by_uuid(self, uuid):
+        try:
+            return self.session.query(Loan).filter_by(uuid=uuid).one()
+        except Exception as e:
+            logging.error("fail get loan %s", e)
+            raise

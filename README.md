@@ -5,8 +5,6 @@
 pip install psycopg2-binary
 pip install alembic
 
-#go path /migrations
-
 alembic init alembic
 ```
 - update url database em alembic.ini, and execute:
@@ -22,4 +20,10 @@ alembic revision -m "create table"
 alembic upgrade head #create table 
 #or
 alembic downgrade -1
+```
+- lembrando que o alembic precisa dos metadados no arquivo alembic/env.py
+```
+from domain.loan import Base
+
+target_metadata = Base.metadata
 ```
