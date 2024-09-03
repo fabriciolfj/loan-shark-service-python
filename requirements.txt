@@ -85,7 +85,7 @@ email_validator==2.2.0
 entrypoints @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/entrypoints_1699248284911/work
 et-xmlfile @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/et_xmlfile_1699253278402/work
 executing @ file:///opt/conda/conda-bld/executing_1646925071911/work
-fastapi==0.112.1
+fastapi~=0.112.2
 fastapi-cli==0.0.5
 fastjsonschema @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/python-fastjsonschema_1699241084188/work
 filelock @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/filelock_1701807880662/work
@@ -379,3 +379,4 @@ pydantic==2.8.2
 PyYAML~=6.0
 SQLAlchemy~=2.0.32
 psycopg2==2.9.9
+confluent-kafka~=2.5.3

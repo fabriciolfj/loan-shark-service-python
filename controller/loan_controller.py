@@ -22,7 +22,7 @@ def create_loan(payload: CreateLoan):
             service = LoanService(repo)
 
             loan = CreateLoan.toLoan(payload)
-            loan = service.save(loan)
+            loan = service.save_publish(loan)
             logging.info("result %s", loan)
 
             result = LoanGuid(uuid=str(loan.uuid))

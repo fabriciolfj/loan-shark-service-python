@@ -22,5 +22,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 from controller import loan_controller
