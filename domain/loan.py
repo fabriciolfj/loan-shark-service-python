@@ -14,3 +14,13 @@ class Loan(Base):
     birthday = Column(Date, nullable=False)
     loan = Column(Float, nullable=False)
     document = Column(Float, nullable=False)
+
+    def to_dict(self):
+        return {
+            'uuid': str(self.uuid),
+            'name': self.name,
+            'salary': self.salary,
+            'birthday': self.birthday.isoformat() if self.birthday else None,
+            'loan': self.loan,
+            'document': self.document
+        }

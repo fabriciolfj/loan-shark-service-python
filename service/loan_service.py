@@ -16,7 +16,7 @@ class LoanService:
     def save_publish(self, loan):
         result = self.loan_repository.persist(loan)
 
-        value = json.dump(result.to_dict())
+        value = json.dumps(result.to_dict())
         self.producer.send_message(os.getenv("KAFKA_TOPIC"), str(value))
         logging.info("sendo message %s success", value)
 
