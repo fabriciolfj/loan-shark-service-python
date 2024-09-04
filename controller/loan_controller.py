@@ -5,9 +5,9 @@ from starlette import status
 
 from app import app
 from database.unit_of_work import UnitOfWork
-from domain.create_loan import CreateLoan
-from domain.loan_guid import LoanGuid
-from domain.loan_response import LoanResponse
+from dto.create_loan import CreateLoan
+from dto.loan_guid import LoanGuid
+from dto.loan_response import LoanResponse
 from repository.loan_repository import LoanRepository
 from service.loan_service import LoanService
 
@@ -28,7 +28,7 @@ def create_loan(payload: CreateLoan):
             result = LoanGuid(uuid=str(loan.uuid))
 
             unit.commit()
-
+            service.close()
         return result
     except Exception as e:
         logging.error(e)
