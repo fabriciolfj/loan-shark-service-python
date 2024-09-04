@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 class RiskListener:
     def __init__(self):
         self.consumer = KafkaconsumerConfig(ConsumerConfig())
-        self.consumer.subscribe([os.getenv("KAFKA_TOPIC")])
+        self.consumer.subscribe(os.getenv("KAFKA_TOPIC"))
         self.running = False
 
     async def receive(self):
@@ -34,3 +34,4 @@ class RiskListener:
     async def stop(self):
         self.running = False
         await asyncio.to_thread(self.consumer.close)
+

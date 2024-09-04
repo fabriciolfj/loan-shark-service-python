@@ -1,4 +1,5 @@
 import configparser
+import socket
 
 
 class ProducerConfig:
@@ -11,6 +12,7 @@ class ProducerConfig:
 
         conf = {
             'bootstrap.servers': url,
+            'client.id': socket.gethostname()
         }
 
         self.config = conf
