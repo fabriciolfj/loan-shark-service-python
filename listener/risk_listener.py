@@ -7,6 +7,7 @@ from config.kafka_consumer import KafkaconsumerConfig
 logging.basicConfig(level=logging.DEBUG)
 
 class RiskListener:
+
     def __init__(self):
         self.consumer = KafkaconsumerConfig(ConsumerConfig())
         self.consumer.subscribe(os.getenv("KAFKA_TOPIC"))
