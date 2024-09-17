@@ -25,9 +25,28 @@ class LoanService:
             logging.error("Error in save_publish: %s", str(e))
             raise
 
+    def save(self, loan):
+        try:
+            loan_exists = self.find_by_uuid(loan.uuid)
+            if loan_exists:
+                self.merge(loan_exists, loan)
+            else:
+                raise ValueError("Loan does not exist. Cannot persist new loan.")
+
+            self.loan_repository.persist(loan)
+        except Exception as e:
+            logging.error("Error in save_publish: %s", str(e))
+            raise
+
     def find_by_uuid(self, uuid):
         uuid = str(uuid)
         return self.loan_repository.get_by_uuid(uuid)
+
+    def merge(self, existing_loan, new_loan_data):
+        for key, value in vars(new_loan_data).items():
+            if key in vars(existing_loan) and key != 'id':
+                setattr(existing_loan, key, value)
+        return existing_loan
 
     def close(self):
         self.producer.close()

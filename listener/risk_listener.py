@@ -1,14 +1,18 @@
 import logging
+import json
 import os
 import asyncio
 from config.kafka_config import ConsumerConfig
 from config.kafka_consumer import KafkaconsumerConfig
+from domain.loan import Loan
+from service.risk_service import RiskService
 
 logging.basicConfig(level=logging.DEBUG)
 
 class RiskListener:
 
     def __init__(self):
+        self.risk_service = RiskService()
         self.consumer = KafkaconsumerConfig(ConsumerConfig())
         self.consumer.subscribe(os.getenv("KAFKA_TOPIC"))
         self.running = False
@@ -28,6 +32,10 @@ class RiskListener:
                     "Received message: %s:%d:%d: key=%s value=%s",
                     msg.topic(), msg.partition(), msg.offset(), msg.key(), msg.value()
                 )
+
+                message_dict = json.loads(msg.value())
+                loan_msg = Loan(**message_dict)
+                self.risk_service.update_loan(loan_msg)
             except Exception as e:
                 logging.error("Error processing message: %s", e)
             await asyncio.sleep(0)  # Yield control to the event loop

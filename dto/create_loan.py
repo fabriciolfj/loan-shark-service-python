@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 from pydantic.v1 import validator
 
 from domain.loan import Loan
+from domain.status import Status
 
 
 class CreateLoan(BaseModel):
@@ -42,7 +43,8 @@ class CreateLoan(BaseModel):
             birthday=create.birth_date,
             loan=create.loan,
             document=create.document,
-            uuid=uuid.uuid4()
+            uuid=uuid.uuid4(),
+            status=Status.PENDING.value
         )
 
         return loan

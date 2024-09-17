@@ -14,6 +14,7 @@ class Loan(Base):
     birthday = Column(Date, nullable=False)
     loan = Column(Float, nullable=False)
     document = Column(Float, nullable=False)
+    status = Column(String, nullable=False)
 
     def to_dict(self):
         return {
