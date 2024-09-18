@@ -1,5 +1,7 @@
+import io
 import logging
-from fastapi import HTTPException
+import pandas as pd
+from fastapi import HTTPException, UploadFile, File
 
 from starlette import status
 
@@ -51,3 +53,12 @@ def get_loan(uuid: str):
         raise HTTPException(
             status_code=400, detail=f'fail get loan ${uuid}'
         )
+
+@app.post("/upload-csv/")
+async def upload_csv(file: UploadFile = File(...)):
+    if file.content_type == 'text/csv':
+        contents = await file.read()
+        df = pd.read_csv(io.BytesIO(contents))
+        return {"filename": file.filename, "content": df.to_json()}
+    else:
+        return {"error": "O arquivo enviado não é um CSV"}
