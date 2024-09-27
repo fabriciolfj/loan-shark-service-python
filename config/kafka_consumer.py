@@ -1,7 +1,7 @@
 from confluent_kafka import Consumer
 
 
-class KafkaconsumerConfig:
+class KafkaConsumerConfig:
 
     def __init__(self, kafka):
         self.consumer = Consumer(**kafka.config)

@@ -3,7 +3,7 @@ import json
 import os
 import asyncio
 from config.kafka_config import ConsumerConfig
-from config.kafka_consumer import KafkaconsumerConfig
+from config.kafka_consumer import KafkaConsumerConfig
 from domain.loan import Loan
 from service.risk_service import RiskService
 
@@ -13,7 +13,7 @@ class RiskListener:
 
     def __init__(self):
         self.risk_service = RiskService()
-        self.consumer = KafkaconsumerConfig(ConsumerConfig())
+        self.consumer = KafkaConsumerConfig(ConsumerConfig())
         self.consumer.subscribe(os.getenv("KAFKA_TOPIC"))
         self.running = False
 
